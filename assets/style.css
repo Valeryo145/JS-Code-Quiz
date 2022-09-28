@@ -1,0 +1,88 @@
+* {
+    font-family:Arial;
+}
+
+body {
+    font-size: 120%;
+}
+
+
+a {
+    color: #da15b3;
+    text-decoration: none;
+    transition: color 0.1s;
+}
+  
+a:hover {
+    color: #c204b5;
+}
+
+.seeScore {
+    text-align: left;
+    padding-bottom: 0px;
+    color: #ff04ee;
+}
+
+.time {
+    text-align: right;
+    padding-bottom: 10px;
+    
+}
+  
+.wrapper {
+    margin: 100px auto 0 auto;
+    max-width: 500px;
+    text-align: center;
+}
+
+button {
+    display: inline-block;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 100%;
+    background-color: #08007b;
+    border-radius: 5px;
+    padding: 2px 10px;
+    color: white;
+    border: 0;
+    transition: background-color 0.5s;
+}
+
+button:hover {
+    background-color: #c204b5;
+}
+  
+.options button {
+    display: block;
+}
+  
+ input {
+    background-color: antiquewhite;
+    font-size: 100%;
+}
+
+.hide {
+    display: none;
+}
+  
+.StartButton {
+    text-align: center;
+}
+  
+.final-score {
+    font-style: italic;
+    font-size: 120%;
+    margin-top: 20px;
+    padding-top: 10px;
+    color: gray;
+    border-top: 2px solid #ccc;
+}
+  
+.timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+  
+
+
