@@ -19,7 +19,14 @@ THEN I can save my initials and score
 
 ## Mock-Up
 The following animation demonstrates the application functionality:
-https://courses.bootcampspot.com/courses/2088/files/1997193/preview
+
+![04-web-apis-homework-demo (2)](https://user-images.githubusercontent.com/110436164/192675484-26bf1151-a4ac-414f-a6fd-36148b50193f.gif)
+
+
+## ScreenShot of the deployed app
+
+![Screenshot 204049](https://user-images.githubusercontent.com/110436164/192675554-b518c3d6-11de-4f8c-8b7c-29c0c486bb79.png)
+
 
 ## DeployedApp
 
