@@ -1,113 +1,140 @@
-var StartButtonEl = document.getElementById("start");
-var timerCountEl = document.getElementById("time");
+var startButtonEl = document.getElementById("start");
 var questionsEl = document.getElementById("questions");
+var timerCountEl = document.getElementById("time");
 var optionsEl = document.getElementById("options");
 var submitBtn = document.getElementById("submit");
 var initialsEl = document.getElementById("initials");
-var EndingscoreEl = document.getElementById("score");
-var startQuestionsEl = document.getElementById('start-questions');
+var feedbackEl = document.getElementById("feedback");
+//var startQuestionsEl = document.getElementById("start-questions")
 
-var questionIndex = 0;
-var time = 60;
+//timer to start with 75 secs, can change to lower or higher
+var currentQuestionIndex = 0;
+var time = questions.length * 15;
 var timerId;
 
-var questions = [
-  {
-    title: "Commonly used data DO NOT Include:",
-    options: ["1.Strings", "2.Booleans", "3.Alerts", "4.Numbers"],
-    answer: "3.Alerts"
-  },
-  {
-    title: "The condition in an if/else statement is enclosed within _______.",
-    options: ["1.Quotes", "2.Curly ", "3.Parenthesis", "4.Square "],
-    answer: "3.Parenthesis"
-  },
-  {
-    title: "Arrays in JavaScript can be used to store ______.",
-    options: ["1.Numbers ", "2.Other ", "3.Booleans", "4.All of the above"],
-    answer: "4.All of the above"
-  },
-  {
-    title:"String values must be enclosed within ______ when being assigned to variables.",
-    options: ["1.Commas", "2.Curly Brackets ", "3.Quotes", "4.Parentheses"],
-    answer: "3.Quotes"
-  },
-  {
-    title: "A very useful tool used during development and debugging for printing content to the debugger is",
-    options: ["1.JavaScript", "2.Terminal/Bash", "3.For Loops", "4.Console.log"],
-    answer: "4.Console.log"
-  },
-];
-
-// click button to start quiz
-StartButtonEl.onclick = startQuiz;
+// user clicks button to start quiz
+startButtonEl.onclick = startQuiz;
 
 function startQuiz() {
   var quizChallenge = document.getElementById("quizChallenge");
-  quizChallenge.setAttribute("class", "hide");
-  //quizChallenge.classList.add('hide');
-
-  //shows questions 
-  questionsEl.removeAttribute('class');
-  startQuestionsEl.removeAttribute('class');
-
-  timerCountEl.textContent = time;
-  // start timer
+  quizChallenge.setAttribute("class", "start hide");
+  questionsEl.setAttribute("class", " ");
+  // func to start timer
   timerId = setInterval(function () {
-      time--;
-      timerCountEl.textContent = time;
-  
-    }, 1000)
+    clockTick();
+  }, 1000);
+  // show starting time
+  timerCountEl.textContent = time;
 
-  showQuestion(questionIndex);
+  showQuestion();
 }
 
-function showQuestion(questionIndex) {
-    questions.innerHTML = "";
-    optionsEl.innerHTML = "";
-    var currentQuestion = questions[questionIndex];
-    var questionOptions = questions[questionIndex].options;
-    questionsEl.textContent = currentQuestion.title;
-
-    for (var i = 0; i < currentQuestion.options.length; i++) {
-      var buttonTag = document.createElement('button');
-      buttonTag.textContent = currentQuestion.options[i];
-      buttonTag.addEventListener('click', checkAnswer);
-      optionsEl.appendChild(buttonTag);
-    } 
-  
-}
-
-function checkAnswer(e) {
-
-  var clicked = e.target.textContent;
-  var currentQuestion = questions[questionIndex].answer;
- 
-  if(clicked === currentQuestion){
-    alert('Correct!');
-    questionIndex++;
-    showQuestion(questionIndex);
-   
-  }else{
-    alert('Incorrect!')
-    questionIndex++;
-    showQuestion(questionIndex);
-    time-=10
+function showQuestion() {
+  var currentQuestion = questions[currentQuestionIndex];
+  questionsEl.children[0].textContent = currentQuestion.title;
+  while (optionsEl.hasChildNodes()) {
+    optionsEl.removeChild(optionsEl.lastChild);
   }
+  // loop over options
+  for (var i = 0; i < currentQuestion.options.length; i++) {
+    var choiceButton = document.createElement("button");
+    choiceButton.textContent = currentQuestion.options[i];
+    optionsEl.appendChild(choiceButton);
+  }
+  // create click event to each option 
+  optionsEl.children[0].addEventListener("click", function (event) {
+    questionClick(optionsEl.children[0]);
+  });
+  optionsEl.children[1].addEventListener("click", function (event) {
+    questionClick(optionsEl.children[1]);
+  });
+  optionsEl.children[2].addEventListener("click", function (event) {
+    questionClick(optionsEl.children[2]);
+  });
+  optionsEl.children[3].addEventListener("click", function (event) {
+    questionClick(optionsEl.children[3]);
+  });
+}
+
+function questionClick(answerOption) {
+  // check if user wrong
+  if (answerOption.textContent != questions[currentQuestionIndex].answer) {
+    // penalize time by ten seconds
+    time -= 10;
+    feedbackEl.textContent = "Incorrect";
+  } else {
+    feedbackEl.textContent = "Correct";
+  }
+  //right or wrong feedback
+  feedbackEl.setAttribute("class", "feedback");
+  setInterval(function () {
+    feedbackEl.setAttribute("class", "feedback hide");
+  }, 1000);
+
+  //next question
+  currentQuestionIndex++;
+
+  // check if end of questions
+  if (currentQuestionIndex === questions.length)
+    // endScreen
+    endScreen();
+  // showQuestion
+  else showQuestion();
+}
+
+function clockTick() {
+  // update time
+  time--;
+  timerCountEl.textContent = time;
+  if (time <= 0) endScreen();
 }
 
 function endScreen() {
-  clearInterval(timerId); 
-  lastQuestion.clearInterval('hide');
-  EndingscoreEl.textContent = time;
+  clearInterval(timerId);
+  timerCountEl.textContent = time;
+
+  // show end screen
+  var endScreenEl = document.getElementById("end-screen");
+  endScreenEl.setAttribute("class", " ");
+
+  // show final score
+  var finalScoreEl = document.getElementById("final-score");
+  finalScoreEl.textContent = time;
+
+  // hide questions
+  questionsEl.setAttribute("class", "hide");
 }
 
+// user clicks button to submit initials
+submitBtn.onclick = saveHighscore;
 
+function saveHighscore() {
+  var initials = initialsEl.value.toUpperCase();
+  if (initials === "") {
+    alert("Initials Can't Be Blank");
+    return;
+  } else if (initials.length > 2) {
+    alert("Can't be more than 2 characters");
+    return;
+  } else {
+    // saved score to local storage, if non -null
+    var highscores;
+    if (JSON.parse(localStorage.getItem("highscores")) != null)
+      highscores = JSON.parse(window.localStorage.getItem("highscores"));
+    else highscores = [];
+    var newScore = {
+      initials: initials,
+      score: time,
+    };
+    highscores.push(newScore);
+    // save to localstorage
+    localStorage.setItem("highscores", JSON.stringify(highscores));
+    // move to scores page
+    location.href = "scores.html";
+  }
+}
 
-
-
-
-
-//Highscore saved to local storge 
-// click button to submit initials
-//submitBtn.onclick = saveHighscore;
+function finalEntered(event) {
+  if (event.keyCode === 13) saveHighscore();
+}
+initialsEl.onkeyup = finalEntered;

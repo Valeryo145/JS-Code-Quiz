@@ -9,12 +9,11 @@
 </head>
 
 <body>
-  <div class="seeScroe"><a href="./scores.html">View Highscores</a></div>
-  <div class="time">Timer: <span id="time">60</span></div>
-  <main>
+  <div class="scores"><a href="./scores.html">View Highscores</a></div>
+  <div class="time">Timer: <span id="time">0</span></div>
     <!--First SCREEN-->
     <div class="wrapper">
-    <div id="quizChallenge" class="StartButton">
+    <div id="quizChallenge" class="start">
       <h1>Coding Quiz</h1>
       <p>
         Try to answer the following code-related questions within the time
@@ -24,7 +23,7 @@
       <button id="start">Start Quiz!</button>
     </div>
     <!--Start Quiz Q's-->
-    <div id="start-questions" class="hide">
+    <div id="questions" class="hide">
       <h2 id="questions"></h2>
       <div id="options" class="options"></div>
     </div>
@@ -32,12 +31,18 @@
     <div id="end-screen" class="hide">
       <h1>All Done!</h1>
       <p>Your final score is <span id="final-score"></span>.</p>
-      <p>Enter initials: <input type="text" id="initials" max="3" />
+      <p>
+        Enter initials: <input type="text" id="initials" max="3" />
         <button id="submit">Submit</button>
       </p>
     </div>
-  </main>
+
+    <div id="feedback" class="feedback hide"></div>
+
+  <script src="./assets/JS/questions.js"></script>
   <script src="./assets/JS/script.js"></script>
+  
+  
 </body>
 
 </html>

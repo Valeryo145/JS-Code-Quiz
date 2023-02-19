@@ -65,7 +65,7 @@ button:hover {
     display: none;
 }
   
-.StartButton {
+.startButton {
     text-align: center;
 }
   
@@ -84,5 +84,10 @@ button:hover {
     right: 10px;
 }
   
+.scores {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
 
 
